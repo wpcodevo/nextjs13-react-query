@@ -5,10 +5,10 @@ export default function Home() {
     <>
       <h1>Hello, Next.js 13 App Directory!</h1>
       <p>
-        <Link href="/initial-data">Using initial data For Prefetching</Link>
+        <Link href="/initial-data">Prefetching Using initial data</Link>
       </p>
       <p>
-        <Link href="/hydration">Using Hydration For Prefetching</Link>
+        <Link href="/hydration">Prefetching Using Hydration</Link>
       </p>
     </>
   );
