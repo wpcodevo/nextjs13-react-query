@@ -3,6 +3,7 @@
 import { User } from "../types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import React from "react";
 
 async function getUsers() {
   return (await fetch("https://jsonplaceholder.typicode.com/users").then(
@@ -11,6 +12,7 @@ async function getUsers() {
 }
 
 export default function ListUsers() {
+  const [count, setCount] = React.useState(0);
   const { data, isLoading, isFetching, error } = useQuery<User[]>({
     queryKey: ["stream-hydrate-users"],
     queryFn: () => getUsers(),
@@ -18,8 +20,19 @@ export default function ListUsers() {
     staleTime: 5 * 1000,
   });
 
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCount((prev) => prev + 1);
+    }, 100);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <>
+      <p>{count}</p>
       {error ? (
         <p>Oh no, there was an error</p>
       ) : isFetching || isLoading ? (
