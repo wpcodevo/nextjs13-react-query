@@ -2,7 +2,6 @@
 
 import { User } from "../types";
 import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
 import React from "react";
 
 async function getUsers() {
@@ -13,7 +12,7 @@ async function getUsers() {
 
 export default function ListUsers() {
   const [count, setCount] = React.useState(0);
-  const { data, isLoading, isFetching, error } = useQuery<User[]>({
+  const { data } = useQuery<User[]>({
     queryKey: ["stream-hydrate-users"],
     queryFn: () => getUsers(),
     suspense: true,
@@ -33,11 +32,7 @@ export default function ListUsers() {
   return (
     <>
       <p>{count}</p>
-      {error ? (
-        <p>Oh no, there was an error</p>
-      ) : isFetching || isLoading ? (
-        <p style={{ textAlign: "center" }}>loading... on the client-side</p>
-      ) : data ? (
+      {
         <div
           style={{
             display: "grid",
@@ -50,17 +45,16 @@ export default function ListUsers() {
               key={user.id}
               style={{ border: "1px solid #ccc", textAlign: "center" }}
             >
-              <Image
+              <img
                 src={`https://robohash.org/${user.id}?set=set2&size=180x180`}
                 alt={user.name}
-                width={180}
-                height={180}
+                style={{ width: 180, height: 180 }}
               />
               <h3>{user.name}</h3>
             </div>
           ))}
         </div>
-      ) : null}
+      }
     </>
   );
 }

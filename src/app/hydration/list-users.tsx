@@ -13,7 +13,7 @@ async function getUsers() {
 export default function ListUsers() {
   const [count, setCount] = React.useState(0);
 
-  const { data, isLoading, isFetching, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ["hydrate-users"],
     queryFn: () => getUsers(),
   });
@@ -32,11 +32,7 @@ export default function ListUsers() {
         <button onClick={() => setCount(0)}>reset</button>
       </div>
 
-      {error ? (
-        <p>Oh no, there was an error</p>
-      ) : isLoading || isFetching ? (
-        <p>Loading...</p>
-      ) : data ? (
+      {
         <div
           style={{
             display: "grid",
@@ -44,7 +40,7 @@ export default function ListUsers() {
             gap: 20,
           }}
         >
-          {data.map((user) => (
+          {data?.map((user) => (
             <div
               key={user.id}
               style={{ border: "1px solid #ccc", textAlign: "center" }}
@@ -58,7 +54,7 @@ export default function ListUsers() {
             </div>
           ))}
         </div>
-      ) : null}
+      }
     </main>
   );
 }

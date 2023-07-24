@@ -13,7 +13,7 @@ async function getUsers() {
 export default function ListUsers({ users }: { users: User[] }) {
   const [count, setCount] = React.useState(0);
 
-  const { data, isLoading, isFetching, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ["initial-users"],
     queryFn: () => getUsers(),
     initialData: users,
@@ -32,11 +32,7 @@ export default function ListUsers({ users }: { users: User[] }) {
         <button onClick={() => setCount(0)}>reset</button>
       </div>
 
-      {error ? (
-        <p>Oh no, there was an error</p>
-      ) : isLoading || isFetching ? (
-        <p>Loading...</p>
-      ) : data ? (
+      {
         <div
           style={{
             display: "grid",
@@ -58,7 +54,7 @@ export default function ListUsers({ users }: { users: User[] }) {
             </div>
           ))}
         </div>
-      ) : null}
+      }
     </main>
   );
 }
